@@ -7,12 +7,14 @@ public class SoilSensor extends NumericSensor {
         this.code = code;
         this.zone = zone;
         this.status = SensorStatus.ACTIVE;
+        this.timestamp = System.currentTimeMillis() / 1000.0; // Initialize timestamp to current time
     }
 
     public void display() {
         System.out.println("Soil Sensor Code: " + code);
         System.out.println("Status: " + status);
         System.out.println("Zone: " + zone.getName());
+        System.out.println("Last Update: " + timestamp);
         if (status == SensorStatus.ACTIVE) {
             System.out.println("Current PH: " + PH);
             System.out.println("Current Moisture Level: " + moistureLevel);
@@ -27,6 +29,7 @@ public class SoilSensor extends NumericSensor {
             this.PH = PH;
             this.moistureLevel = moistureLevel;
             this.nitrogenContent = nitrogenContent;
+            this.timestamp = System.currentTimeMillis() / 1000.0; // Update timestamp to current time
             System.out.println("Soil readings sent: PH " + PH + ", Moisture Level " + moistureLevel
                     + ", Nitrogen Content " + nitrogenContent);
         } else {

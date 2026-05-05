@@ -28,7 +28,7 @@ public class ReleveNumeric extends ReleveSensor {
     }
 
     // return a boolean indicating whether the value is valid for the sensor type
-    public boolean isValidValue(double value) {
+    public boolean isValidValue(String measurement, double value) {
         if (sensor == null) {
             System.out.println("Anomaly detected: no sensor attached to this reading.");
             return false;
@@ -38,31 +38,112 @@ public class ReleveNumeric extends ReleveSensor {
         String sensorName = sensor.getClass().getSimpleName();
 
         if (sensor instanceof BiometricSensor) {
-            isValid = (value >= MIN_BODY_TEMPERATURE && value <= MAX_BODY_TEMPERATURE)
-                    || (value >= MIN_ACTIVITY_LEVEL && value <= MAX_ACTIVITY_LEVEL)
-                    || (value >= MIN_STEPS_PER_MINUTE && value <= MAX_STEPS_PER_MINUTE);
+            isValid = validateBiometricMeasurement(measurement, value);
         } else if (sensor instanceof WaterSensor) {
-            isValid = (value >= MIN_WATER_TEMPERATURE && value <= MAX_WATER_TEMPERATURE)
-                    || (value >= MIN_DISSOLVED_OXYGEN && value <= MAX_DISSOLVED_OXYGEN);
+            isValid = validateWaterMeasurement(measurement, value);
         } else if (sensor instanceof EnvironmentalSensor) {
-            isValid = (value >= MIN_WEATHER_TEMPERATURE && value <= MAX_WEATHER_TEMPERATURE)
-                    || (value >= MIN_HUMIDITY && value <= MAX_HUMIDITY)
-                    || (value >= MIN_RAINFALL && value <= MAX_RAINFALL);
+            isValid = validateEnvironmentalMeasurement(measurement, value);
         } else if (sensor instanceof SoilSensor) {
-            isValid = (value >= MIN_PH && value <= MAX_PH)
-                    || (value >= MIN_MOISTURE_LEVEL && value <= MAX_MOISTURE_LEVEL)
-                    || (value >= MIN_NITROGEN_CONTENT && value <= MAX_NITROGEN_CONTENT);
+            isValid = validateSoilMeasurement(measurement, value);
         } else {
             System.out.println("Anomaly detected: unknown numeric sensor type.");
             return false;
         }
 
         if (!isValid) {
-            System.out
-                    .println("Anomaly detected for " + sensorName + ": value " + value + " is outside expected range.");
+            System.out.println("Invalid reading for " + sensorName + " [" + measurement + "]: " + value);
         }
 
         return isValid;
+    }
+
+    private boolean validateBiometricMeasurement(String measurement, double value) {
+        if (measurement == null) {
+            System.out.println("Measurement name is required for biometric sensor validation.");
+            return false;
+        }
+
+        if (measurement.equalsIgnoreCase("bodyTemperature")) {
+            return checkRange("Body temperature", value, MIN_BODY_TEMPERATURE, MAX_BODY_TEMPERATURE);
+        }
+        if (measurement.equalsIgnoreCase("activityLevel")) {
+            return checkRange("Activity level", value, MIN_ACTIVITY_LEVEL, MAX_ACTIVITY_LEVEL);
+        }
+        if (measurement.equalsIgnoreCase("stepsPerMinute")) {
+            return checkRange("Steps per minute", value, MIN_STEPS_PER_MINUTE, MAX_STEPS_PER_MINUTE);
+        }
+
+        System.out.println("Unknown biometric measurement: " + measurement);
+        return false;
+    }
+
+    private boolean validateWaterMeasurement(String measurement, double value) {
+        if (measurement == null) {
+            System.out.println("Measurement name is required for water sensor validation.");
+            return false;
+        }
+
+        if (measurement.equalsIgnoreCase("temperature")) {
+            return checkRange("Water temperature", value, MIN_WATER_TEMPERATURE, MAX_WATER_TEMPERATURE);
+        }
+        if (measurement.equalsIgnoreCase("dissolvedOxygen")) {
+            return checkRange("Dissolved oxygen", value, MIN_DISSOLVED_OXYGEN, MAX_DISSOLVED_OXYGEN);
+        }
+
+        System.out.println("Unknown water sensor measurement: " + measurement);
+        return false;
+    }
+
+    private boolean validateEnvironmentalMeasurement(String measurement, double value) {
+        if (measurement == null) {
+            System.out.println("Measurement name is required for environmental sensor validation.");
+            return false;
+        }
+
+        if (measurement.equalsIgnoreCase("temperature")) {
+            return checkRange("Weather temperature", value, MIN_WEATHER_TEMPERATURE, MAX_WEATHER_TEMPERATURE);
+        }
+        if (measurement.equalsIgnoreCase("humidity")) {
+            return checkRange("Humidity", value, MIN_HUMIDITY, MAX_HUMIDITY);
+        }
+        if (measurement.equalsIgnoreCase("rainfall")) {
+            return checkRange("Rainfall", value, MIN_RAINFALL, MAX_RAINFALL);
+        }
+
+        System.out.println("Unknown environmental measurement: " + measurement);
+        return false;
+    }
+
+    private boolean validateSoilMeasurement(String measurement, double value) {
+        if (measurement == null) {
+            System.out.println("Measurement name is required for soil sensor validation.");
+            return false;
+        }
+
+        if (measurement.equalsIgnoreCase("PH")) {
+            return checkRange("Soil pH", value, MIN_PH, MAX_PH);
+        }
+        if (measurement.equalsIgnoreCase("moistureLevel")) {
+            return checkRange("Moisture level", value, MIN_MOISTURE_LEVEL, MAX_MOISTURE_LEVEL);
+        }
+        if (measurement.equalsIgnoreCase("nitrogenContent")) {
+            return checkRange("Nitrogen content", value, MIN_NITROGEN_CONTENT, MAX_NITROGEN_CONTENT);
+        }
+
+        System.out.println("Unknown soil measurement: " + measurement);
+        return false;
+    }
+
+    private boolean checkRange(String name, double value, double min, double max) {
+        if (value < min) {
+            System.out.println(name + " is too low: " + value + " < " + min);
+            return false;
+        }
+        if (value > max) {
+            System.out.println(name + " is too high: " + value + " > " + max);
+            return false;
+        }
+        return true;
     }
 
 }

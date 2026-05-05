@@ -4,6 +4,17 @@ public class BiometricSensor extends NumericSensor {
     private int stepsPerMinute;
     private GPS gpsCollar;
 
+    public double getBodyTemperature() {
+        return bodyTemperature;
+    }
+
+    public double getActivityLevel() {
+        return activityLevel;
+    }
+
+        return stepsPerMinute;
+    }
+
     public BiometricSensor(String code, Zone zone) {
         this.code = code;
         this.zone = zone;
@@ -16,6 +27,7 @@ public class BiometricSensor extends NumericSensor {
         System.out.println("Biometric Sensor Code: " + code);
         System.out.println("Status: " + status);
         System.out.println("Zone: " + zone.getName());
+        System.out.println("Last Update: " + timestamp);
         if (status == SensorStatus.ACTIVE) {
             System.out.println("Current Body Temperature: " + bodyTemperature);
             System.out.println("Current Activity Level: " + activityLevel);
@@ -34,6 +46,7 @@ public class BiometricSensor extends NumericSensor {
             this.activityLevel = activityLevel;
             this.stepsPerMinute = stepsPerMinute;
             gpsCollar.sendLocation(latitude, longitude);
+            this.timestamp = System.currentTimeMillis() / 1000.0; // Update timestamp to current time
             System.out.println("Biometric readings sent: Body Temperature " + bodyTemperature + ", Activity Level "
                     + activityLevel + ", Steps Per Minute " + stepsPerMinute);
         } else {

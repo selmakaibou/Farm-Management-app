@@ -2,6 +2,7 @@ public abstract class Sensor implements Desactivate {
     protected String code;
     protected SensorStatus status;
     protected Zone zone;
+    protected double timestamp;
 
     public abstract void display();
 
