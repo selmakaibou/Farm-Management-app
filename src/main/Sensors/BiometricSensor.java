@@ -12,7 +12,12 @@ public class BiometricSensor extends NumericSensor {
         return activityLevel;
     }
 
+    public int getStepsPerMinute() {
         return stepsPerMinute;
+    }
+
+    public GPS getGpsCollar() {
+        return gpsCollar;
     }
 
     public BiometricSensor(String code, Zone zone) {
@@ -20,6 +25,7 @@ public class BiometricSensor extends NumericSensor {
         this.zone = zone;
         this.status = SensorStatus.ACTIVE;
         this.gpsCollar = new GPS(code + "-GPS", zone);
+        this.timestamp = System.currentTimeMillis() / 1000.0; // Initialize timestamp to current time
     }
 
     @Override
