@@ -1,6 +1,6 @@
 public class WaterSensor extends NumericSensor {
-    private double temperature;
-    private double disolvedOxygen;
+    protected double temperature;
+    protected double disolvedOxygen;
 
     public WaterSensor(String code, Zone zone) {
         this.code = code;

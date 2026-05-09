@@ -1,7 +1,7 @@
 public class GPS extends Sensor {
-    private double latitude;
-    private double longitude;
-    private double timestamp;
+    protected double latitude;
+    protected double longitude;
+    protected double timestamp;
 
     public double getLatitude() {
         return latitude;

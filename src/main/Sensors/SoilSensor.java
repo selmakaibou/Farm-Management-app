@@ -1,7 +1,7 @@
 public class SoilSensor extends NumericSensor {
-    private double PH;
-    private double moistureLevel;
-    private double nitrogenContent;
+    protected double PH;
+    protected double moistureLevel;
+    protected double nitrogenContent;
 
     public SoilSensor(String code, Zone zone) {
         this.code = code;

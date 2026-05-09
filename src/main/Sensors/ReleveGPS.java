@@ -1,9 +1,9 @@
 public class ReleveGPS extends ReleveSensor {
-    private GPS gpsCollar;
-    private final double MIN_LATITUDE = -90.0;
-    private final double MAX_LATITUDE = 90.0;
-    private final double MIN_LONGITUDE = -180.0;
-    private final double MAX_LONGITUDE = 180.0;
+    protected GPS gpsCollar;
+    protected final double MIN_LATITUDE = -90.0;
+    protected final double MAX_LATITUDE = 90.0;
+    protected final double MIN_LONGITUDE = -180.0;
+    protected final double MAX_LONGITUDE = 180.0;
 
     public ReleveGPS(GPS gpsCollar) {
         this.gpsCollar = gpsCollar;

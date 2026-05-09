@@ -1,8 +1,8 @@
 public class BiometricSensor extends NumericSensor {
-    private double bodyTemperature;
-    private double activityLevel;
-    private int stepsPerMinute;
-    private GPS gpsCollar;
+    protected double bodyTemperature;
+    protected double activityLevel;
+    protected int stepsPerMinute;
+    protected GPS gpsCollar;
 
     public double getBodyTemperature() {
         return bodyTemperature;

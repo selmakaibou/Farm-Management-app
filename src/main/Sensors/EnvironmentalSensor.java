@@ -1,7 +1,7 @@
 public class EnvironmentalSensor extends NumericSensor {
-    private double temperature;
-    private double humidity;
-    private double rainfall;
+    protected double temperature;
+    protected double humidity;
+    protected double rainfall;
 
     public double getTemperature() {
         return temperature;
